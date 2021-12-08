@@ -662,11 +662,14 @@ function updateAxes() {
     d3.select('.axis.x.left')
         .join('g')
         .attr('transform', translation(0, h))
+        .transition().duration(1500)
         .call(xAxisLeft);
+        
 
     d3.select('.axis.x.right')
         .join('g')
         .attr('transform', translation(rightBegin, h))
+        .transition().duration(1500)
         .call(xAxisRight);
 }
 
