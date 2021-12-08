@@ -4,9 +4,7 @@ let gdp_w_full = 450
 let gdp_h_full = 450
 let colors = ['#e41a1c','#377eb8']
 const color = d3.scaleOrdinal()
-    // .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
     .range(['#e41a1c','#377eb8'])
-
 
 var gdp_margin = {top: 100, right: 73, bottom: 50, left: 73}
 
@@ -27,7 +25,6 @@ async function initiate(){
         .attr("height", gdp_h_full)
     
     gdp = await d3.csv("data/gdp_per_capita_tidy.csv")
-    // gdp = await d3.csv("https://storage.googleapis.com/population-project/Assignment%203/data/gdp_per_capita_tidy.csv")
     
     grouped_data = d3.group(gdp, d => d['Country Name']);
     
@@ -35,7 +32,6 @@ async function initiate(){
     
     gdp_legend = svg.append('g')
         .attr('class', 'gdp_legend')
-
     
     gdp_legend.append('text')
         .text('GDP per Capita, 2020-adj. $')
@@ -54,7 +50,6 @@ async function initiate(){
         .attr('y', 70)
         .attr('font-size', 'large')
 
-
     // Add X axis
     x = d3.scaleLinear()
         .domain(d3.extent(gdp, function(d) { return +d["Year"]; }))
@@ -68,7 +63,8 @@ async function initiate(){
 
     // Add Y axis
     const y = d3.scaleLinear()
-        .domain([0, d3.max(gdp, function(d) { return +d["GDP"]; })])
+        .domain([0, d3.max(grouped_data.get(selected_countries[0]), function(d) { return +d["GDP"]; })])
+        // .domain([0, d3.max(gdp, function(d) { return +d["GDP"]; })])
         .nice()
         .range([ height, 0 ]);
     svg.append("g")
@@ -104,7 +100,6 @@ function drawChart(selected_countries) {
         .data(filtered)
         .join("path")
             .attr("class", "line")
-
             .attr("fill", "none")
             .attr("stroke", function(d){ 
                 return selected_countries.length > 1 ? colors[selected_countries.indexOf(d[0])] : 'black'})
@@ -152,4 +147,3 @@ function formatDollars(str) {
     let asInt = parseInt(str)
     return "$" + asInt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
