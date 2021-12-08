@@ -17,18 +17,9 @@
 
     </head>
     <body style="text-align: center;">
-        <div id='graphs' style="display: flex;justify-content: center;">
-            <div id='pyramid'></div>
-            <div id="gdp"></div>
-        </div>
-
+        <h1>Population Demographics and Wealth</h1>
         <div id='controllables'>
-            <div id='slider-container'>
-                <input type="range" min="1950" max="2020" value="1950" class="slider" id="myRange">
-                <p style="font-size: xx-large;margin-top: auto">Year: <span id="year">1950</span></p>
-            </div>
-
-            <select class="js-example-basic-multiple-limit" id="selected-countries" name="states[]" multiple="multiple" style="height: 300px;">
+            <div style="margin:10px"><select class="js-example-basic-multiple-limit" id="selected-countries" name="states[]" multiple="multiple" >
                 <option value='Aruba'>Aruba</option>
                 <option value='Afghanistan'>Afghanistan</option>
                 <option value='Angola'>Angola</option>
@@ -222,9 +213,16 @@
                 <option value='South Africa'>South Africa</option>
                 <option value='Zambia'>Zambia</option>
                 <option value='Zimbabwe'>Zimbabwe</option>
-            </select>
+            </select></div>
+            <div id='slider-container'>
+                <input type="range" min="1950" max="2020" value="1950" class="slider" id="myRange">
+                <p style="font-size: xx-large;margin-top: auto">Year: <span id="year">1950</span></p>
+            </div>
         </div>
-
+        <div id='graphs' style="display: flex;justify-content: center;">
+            <div id='pyramid' style="margin-right:20px"></div>
+            <div id="gdp" style="margin-left: 20px;"></div>
+        </div>
        
         <script src="gdp_chart.js"></script>
         <!-- <script src="popPyramid.js"></script> -->

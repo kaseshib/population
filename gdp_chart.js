@@ -6,7 +6,7 @@ const color = d3.scaleOrdinal()
     .range(['#e41a1c','#377eb8'])
 
 
-const gdp_margin = {top: 100, right: 55, bottom: 50, left: 55},
+const gdp_margin = {top: 100, right: 65, bottom: 50, left: 65},
         gdp_w_full = 500,
         width = gdp_w_full - gdp_margin.left - gdp_margin.right,
         gdp_h_full = 500,

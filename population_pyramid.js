@@ -194,13 +194,6 @@ function setUpChart(data, target, options) {
         .attr('y', 70)
         .attr('font-size', 'large')
 
-    // population_legend.append('text')
-    //     .attr('x', pyramid_margin.left + w/2)
-    //     .style('text-anchor', 'middle')
-    //     .attr('y', 90)
-    //     .text("\u2642")
-    //     .attr('font-size', 'x-large')
-
     population_legend.append('image')
         .attr('id', 'male-image')
         .attr('x', (w/2 - pyramid_margin.middle + pyramid_margin.left)/2 - male_size/2)
@@ -285,7 +278,6 @@ function setUpChart(data, target, options) {
     var xAxisRight = d3.axisBottom()
         .scale(xScale)
         .ticks(3)
-        // .tickValues(.01,.02,.03,.04,.05)
         .tickFormat(d3.format('.0%'));
 
     var xAxisLeft = d3.axisBottom()
