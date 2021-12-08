@@ -6,7 +6,9 @@ year = 1950
 let chart, options, leftBarGroup, rightBarGroup, tooltipDiv, style, 
     population_legend, w_full, h_full, h, w, sectorWidth, 
     leftBegin, rightBegin, maxValue, xScale, yScale;
-let numCountriesShown = 1
+
+let male_size= 50
+let female_size = 60
 
 var countries = {}
 var upper_to_lower = {}
@@ -191,6 +193,31 @@ function setUpChart(data, target, options) {
         .attr('x', pyramid_margin.left + w/2)
         .attr('y', 70)
         .attr('font-size', 'large')
+
+    // population_legend.append('text')
+    //     .attr('x', pyramid_margin.left + w/2)
+    //     .style('text-anchor', 'middle')
+    //     .attr('y', 90)
+    //     .text("\u2642")
+    //     .attr('font-size', 'x-large')
+
+    population_legend.append('image')
+        .attr('id', 'male-image')
+        .attr('x', (w/2 - pyramid_margin.middle + pyramid_margin.left)/2 - male_size/2)
+        .style('text-anchor', 'middle')
+        .attr('y', 100)
+        .attr('xlink:href', '/images/male.png')
+        .attr('width', male_size)
+        .attr('height', male_size)
+
+    population_legend.append('image')
+        .attr('id', 'female-image')
+        .attr('x', (w/2) + pyramid_margin.left + ((w - pyramid_margin.right) - (w/2) + pyramid_margin.left)/2 - female_size/2)
+        .style('text-anchor', 'middle')
+        .attr('y', 100)
+        .attr('xlink:href', '/images/female.png')
+        .attr('width', female_size)
+        .attr('height', female_size)
 
 
     population_legend.append('text')
@@ -543,6 +570,10 @@ function updateLegend() {
             .join('text')
             .attr('opacity', 0)
             
+        population_legend.select("#male-image")
+            .attr("opacity", 1)
+        population_legend.select("#female-image")
+            .attr("opacity", 1)
         
     } else {
         population_legend.select('#first-country-name-pop')
@@ -603,6 +634,11 @@ function updateLegend() {
         gdp_legend.select('#second-country-name-gdp')
             .join('text')
             .attr('opacity', 0)
+
+        population_legend.select("#male-image")
+            .attr("opacity", 0)
+        population_legend.select("#female-image")
+            .attr("opacity", 0)
     }
 }
 
