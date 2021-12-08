@@ -356,7 +356,7 @@ function drawBars(data, year, options) {
         .attr('class', 'bar left')
         .attr('x', 0)
         .attr('y', function(d) {
-            return yScale(d.age) + pyramid_margin.middle / 4;
+            return yScale(d.age) + yScale.bandwidth()/12;
         })
         .attr('width', function(d) {
             let leftPop = d.male;
@@ -365,7 +365,8 @@ function drawBars(data, year, options) {
             }
             return xScale(percentageOfPopulation(leftPop, countryOneData));
         })
-        .attr('height', (yScale.range()[0] / countryOneData.length) - pyramid_margin.middle / 2)
+        // .attr('height', (yScale.range()[0] / countryOneData.length) - pyramid_margin.middle / 2)
+        .attr('height', yScale.bandwidth()*2/3)
 
 
     leftBars.on("mouseover", function(d, a) {
@@ -410,7 +411,7 @@ function drawBars(data, year, options) {
         .attr('class', 'bar right')
         .attr('x', 0)
         .attr('y', function(d) {
-            return yScale(d.age) + pyramid_margin.middle / 4;
+            return yScale(d.age) + yScale.bandwidth()/12;
         })
         .attr('width', function(d) {
             let rightPop = d.female;
@@ -419,7 +420,7 @@ function drawBars(data, year, options) {
             }
             return xScale(percentageOfPopulation(rightPop, rightData));
         })
-        .attr('height', (yScale.range()[0] / rightData.length) - pyramid_margin.middle / 2)
+        .attr('height', yScale.bandwidth()*2/3)
 
     rightBars.on("mouseover", function(d, a) {
             tooltipDiv.transition()
