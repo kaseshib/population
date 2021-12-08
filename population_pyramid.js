@@ -162,7 +162,7 @@ function setUpChart(data, target, options) {
         .text('svg {max-width:100%} \
         .axis line,axis path {shape-rendering: crispEdges;fill: transparent;stroke: #555;} \
         .axis text {font-size: 11px;} \
-        .bar {fill-opacity: 0.5;} \
+        .bar {fill-opacity: 0.8;} \
         .bar.left {fill: ' + getLeftBarColor(style) + ';} \
         .bar.left:hover {fill: ' + colorTransform(style.maleColor, '333333') + ';} \
         .bar.right {fill: ' + getRightBarColor(style) + ';} \
@@ -498,7 +498,7 @@ function changeBarColors() {
         .text('svg {max-width:100%} \
         .axis line,axis path {shape-rendering: crispEdges;fill: transparent;stroke: #555;} \
         .axis text {font-size: 11px;} \
-        .bar {fill-opacity: 0.5;} \
+        .bar {fill-opacity: 0.8;} \
         .bar.left {fill: ' + getLeftBarColor(style) + ';} \
         .bar.left:hover {fill: ' + colorTransform(getLeftBarColor(style), '333333') + ';} \
         .bar.right {fill: ' + getRightBarColor(style) + ';} \
@@ -579,8 +579,6 @@ function updateLegend() {
             .join('text')
             .text(truncateStrings(selected_countries[0]))
             .style('text-anchor', 'middle')
-            // .attr('x', (gdp_w_full+gdp_margin.left)/2)
-            // .attr('y', 70)
             .attr('font-size', 'large')
             .style('fill', style.leftCountryColor)
             .append('tspan')
@@ -595,8 +593,6 @@ function updateLegend() {
             .join('text')
             .text('vs')
             .style('text-anchor', 'middle')
-            // .attr('x', (gdp_w_full+gdp_margin.left)/2)
-            // .attr('y', 70)
             .attr('font-size', 'large')
             .attr('opacity', 1)
             .append('tspan')
@@ -625,12 +621,6 @@ function truncateStrings(str) {
 }
 
 function updateAxes() {
-    // maxValue = d3.max(countryOneData, (d) => Math.max(d.male, d.female)) / totalPopulation(countryOneData)
-        
-    // if (selected_countries.length == 2) {
-    //     maxValue = Math.max(maxValue, d3.max(countryTwoData, (d) => Math.max(d.male, d.female)) / totalPopulation(countryTwoData))
-    // }
-
     maxValue = 0
 
     for (let country of selected_countries) {
@@ -650,7 +640,6 @@ function updateAxes() {
     var xAxisRight = d3.axisBottom()
         .scale(xScale)
         .ticks(3)
-        // .tickValues(.01,.02,.03,.04,.05)
         .tickFormat(d3.format('.0%'));
 
     var xAxisLeft = d3.axisBottom()
