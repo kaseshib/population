@@ -7,9 +7,9 @@ const color = d3.scaleOrdinal()
 
 
 const gdp_margin = {top: 100, right: 65, bottom: 50, left: 65},
-        gdp_w_full = 500,
+        gdp_w_full = 450,
         width = gdp_w_full - gdp_margin.left - gdp_margin.right,
-        gdp_h_full = 500,
+        gdp_h_full = 450,
         height = gdp_h_full - gdp_margin.top - gdp_margin.bottom;
 
 

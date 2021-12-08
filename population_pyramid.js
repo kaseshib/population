@@ -7,6 +7,9 @@ let chart, options, leftBarGroup, rightBarGroup, tooltipDiv, style,
     population_legend, w_full, h_full, h, w, sectorWidth, 
     leftBegin, rightBegin, maxValue, xScale, yScale;
 
+let graph_height = 450
+let graph_width = 450
+
 let male_size= 50
 let female_size = 60
 
@@ -80,8 +83,8 @@ async function initiate() {
     })
 
     options = {
-        height: 500,
-        width: 500,
+        height: graph_height,
+        width: graph_width,
         style: {
           leftBarColor: "#229922",
           rightBarColor: "#993222"
@@ -122,8 +125,8 @@ function getData(country, year) {
 }
 
 function setUpChart(data, target, options) {
-    w_full = typeof options.width === 'undefined' ? 600  : options.width
-    h_full = typeof options.height === 'undefined' ? 500  : options.height
+    w_full = typeof options.width === 'undefined' ? graph_width  : options.width
+    h_full = typeof options.height === 'undefined' ? graph_height  : options.height
 
     if (w_full > $( window ).width()) {
       w_full = $( window ).width();
@@ -196,7 +199,7 @@ function setUpChart(data, target, options) {
 
     population_legend.append('image')
         .attr('id', 'male-image')
-        .attr('x', (w/2 - pyramid_margin.middle + pyramid_margin.left)/2 - male_size/2)
+        .attr('x', sectorWidth/2 + pyramid_margin.left - male_size/2)
         .style('text-anchor', 'middle')
         .attr('y', 100)
         .attr('xlink:href', 'images/male.png')
@@ -205,7 +208,7 @@ function setUpChart(data, target, options) {
 
     population_legend.append('image')
         .attr('id', 'female-image')
-        .attr('x', (w/2) + pyramid_margin.left + ((w - pyramid_margin.right) - (w/2) + pyramid_margin.left)/2 - female_size/2)
+        .attr('x', w_full/2 + pyramid_margin.middle + sectorWidth/2 - female_size/2)
         .style('text-anchor', 'middle')
         .attr('y', 100)
         .attr('xlink:href', 'images/female.png')
@@ -326,8 +329,8 @@ function drawBars(data, year, options) {
         countryTwoData = data[selected_countries[1]][year]
     }
 
-    var w_full = typeof options.width === 'undefined' ? 600  : options.width,
-        h_full = typeof options.height === 'undefined' ? 500  : options.height
+    var w_full = typeof options.width === 'undefined' ? graph_width  : options.width,
+        h_full = typeof options.height === 'undefined' ? graph_height  : options.height
 
     if (w_full > $( window ).width()) {
       w_full = $( window ).width();
@@ -572,7 +575,7 @@ function updateLegend() {
             .join('text')
             .text(truncateStrings(selected_countries[0]))
             .style('text-anchor', 'middle')
-            .attr('x', (w/2 - pyramid_margin.middle + pyramid_margin.left)/2)
+            .attr('x', sectorWidth/2 + pyramid_margin.left)
             .attr('y', 70)
             .attr('font-size', 'large')
             .style('fill', style.leftCountryColor)
@@ -591,7 +594,7 @@ function updateLegend() {
             .join('text')
             .text(truncateStrings(selected_countries[1]))
             .style('text-anchor', 'middle')
-            .attr('x', (w/2) + pyramid_margin.left + ((w - pyramid_margin.right) - (w/2) + pyramid_margin.left)/2)
+            .attr('x', w_full/2 + pyramid_margin.middle + sectorWidth/2)
             .attr('y', 70)
             .attr('font-size', 'large')
             .style('fill', style.rightCountryColor)
