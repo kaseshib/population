@@ -234,21 +234,7 @@ function setUpChart(data, target, options) {
         .attr('class', 'inner-region')
         .attr('transform', translation(0, pyramid_margin.top));
 
-    // maxValue = Math.max(
-    //     d3.max(data, function(d) {
-            
-    //         return percentageOfPopulation(d.male, data);
-    //     }),
-    //     d3.max(data, function(d) {
-    //         return percentageOfPopulation(d.female, data);
-    //     })
-    // );
-
     maxValue = d3.max(data, (d) => Math.max(d.male, d.female)) / totalPopulation(data)
-    // maxValue = .20
-    console.log(Math.round(maxValue*1000)/10)
-
-    updateAxes()
 
 
     // SET UP SCALES
@@ -365,7 +351,6 @@ function drawBars(data, year, options) {
             }
             return xScale(percentageOfPopulation(leftPop, countryOneData));
         })
-        // .attr('height', (yScale.range()[0] / countryOneData.length) - pyramid_margin.middle / 2)
         .attr('height', yScale.bandwidth()*2/3)
 
 
@@ -662,7 +647,6 @@ function updateAxes() {
         }
     }
     
-    console.log(Math.round(maxValue*1000)/10)
     xScale = d3.scaleLinear()
         .domain([0, maxValue])
         .range([0, sectorWidth])
