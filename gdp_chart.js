@@ -6,7 +6,7 @@ const color = d3.scaleOrdinal()
     .range(['#e41a1c','#377eb8'])
 
 
-const gdp_margin = {top: 100, right: 65, bottom: 50, left: 65},
+const gdp_margin = {top: 100, right: 73, bottom: 50, left: 73},
         gdp_w_full = 450,
         width = gdp_w_full - gdp_margin.left - gdp_margin.right,
         gdp_h_full = 450,
@@ -111,7 +111,7 @@ function drawChart(selected_countries) {
             .attr("fill", "none")
             .attr("stroke", function(d){ 
                 return selected_countries.length > 1 ? colors[selected_countries.indexOf(d[0])] : 'black'})
-            .attr("stroke-width", 1.5)
+            .attr("stroke-width", 3)
             .attr("d", function(d){ return d3.line()                
                 .defined(d => +d["Year"] <= year && +d["GDP"])
 
@@ -140,7 +140,7 @@ function drawChart(selected_countries) {
             .data(filtered)
             .join("text")
             .attr("class", "line-label-two")
-            .attr("transform", translation(gdp_margin.left + width*((year - 1960)/(2020-1960)), gdp_margin.top + y(filtered.get(selected_countries[1])[yearLabel].GDP) ))
+            .attr("transform", translation(gdp_margin.left + 6+width*((year - 1960)/(2020-1960)), gdp_margin.top + y(filtered.get(selected_countries[1])[yearLabel].GDP) ))
             .attr("dy", ".35em")
             .attr("text-anchor", "start")
             .attr("opacity", (year - 1960) * filtered.get(selected_countries[1])[yearLabel].GDP)
