@@ -1,7 +1,5 @@
 initiate()
 year = 1950
-// selected_countries[0] = "United States"
-// selected_countries[1] = ""
 
 let chart, options, leftBarGroup, rightBarGroup, tooltipDiv, style, 
     population_legend, w_full, h_full, h, w, sectorWidth, 
@@ -130,6 +128,7 @@ function setUpChart(data, target, options) {
 
     if (w_full > $( window ).width()) {
       w_full = $( window ).width();
+      graph_width = w_full;
     }
 
     sectorWidth = (w_full / 2) - pyramid_margin.middle - pyramid_margin.left,
@@ -189,14 +188,7 @@ function setUpChart(data, target, options) {
         .attr('y', 30)
         .attr('font-size', 'x-large')
 
-    population_legend.append('text')
-        .attr('id', 'first-country-name-pop')
-        .text(selected_countries[0])
-        .style('text-anchor', 'middle')
-        .attr('x', pyramid_margin.left + w/2)
-        .attr('y', 70)
-        .attr('font-size', 'large')
-
+        
     population_legend.append('image')
         .attr('id', 'male-image')
         .attr('x', sectorWidth/2 + pyramid_margin.left - male_size/2)
@@ -205,7 +197,7 @@ function setUpChart(data, target, options) {
         .attr('xlink:href', 'images/male.png')
         .attr('width', male_size)
         .attr('height', male_size)
-
+        
     population_legend.append('image')
         .attr('id', 'female-image')
         .attr('x', w_full/2 + pyramid_margin.middle + sectorWidth/2 - female_size/2)
@@ -214,16 +206,31 @@ function setUpChart(data, target, options) {
         .attr('xlink:href', 'images/female.png')
         .attr('width', female_size)
         .attr('height', female_size)
-
+        
+    population_legend.append('text')
+        .attr('id', 'first-country-name-pop')
+        .text(selected_countries[0])
+        .style('text-anchor', 'middle')
+        .attr('x', pyramid_margin.left + w/2)
+        .attr('y', 70)
+        .attr('font-size', 'large')
 
     population_legend.append('text')
         .attr('id', 'vs')
         .text('vs.')
+        .style('text-anchor', 'middle')
+        .attr('x', w_full/2)
+        .attr('y', 70)
+        .attr('font-size', 'large')
         .attr('opacity', 0)
 
     population_legend.append('text')
         .attr('id', 'second-country-name-pop')
         .style('text-anchor', 'middle')
+        .attr('x', w_full/2 + pyramid_margin.middle + sectorWidth/2)
+        .attr('y', 70)
+        .attr('font-size', 'large')
+        .style('fill', style.rightCountryColor)
         .attr('opacity', 0)
 
     tooltipDiv = d3.select("body").append("div")
@@ -335,7 +342,6 @@ function drawBars(data, year, options) {
         }))
         .range([h, 0], 0.1);
     
-
     var leftBars = leftBarGroup.selectAll('.bar.left')
         .data(countryOneData, d => d.age)
         .join('rect')
@@ -516,8 +522,6 @@ function changeBarColors() {
 }
 
 function updateLegend() {
-    let leftText, rightText
-
     if (selected_countries.length == 1) {
         population_legend.select('#first-country-name-pop')
             .join('text')
@@ -531,17 +535,14 @@ function updateLegend() {
         population_legend.select('#vs')
             .join('text')
             .attr('opacity', 0)
-        population_legend.select('#second-country-name-pop')
+        
+            population_legend.select('#second-country-name-pop')
             .join('text')
             .attr('opacity', 0)
 
         gdp_legend.select('#first-country-name-gdp')
             .join('text')
             .text(truncateStrings(selected_countries[0]))
-            .style('text-anchor', 'middle')
-            .attr('x', (gdp_w_full+gdp_margin.left)/2)
-            .attr('y', 70)
-            .attr('font-size', 'large')
             .style('fill', 'black')
         
         gdp_legend.select('#and')
@@ -560,38 +561,21 @@ function updateLegend() {
         population_legend.select('#first-country-name-pop')
             .join('text')
             .text(truncateStrings(selected_countries[0]))
-            .style('text-anchor', 'middle')
             .attr('x', sectorWidth/2 + pyramid_margin.left)
-            .attr('y', 70)
-            .attr('font-size', 'large')
             .style('fill', style.leftCountryColor)
 
         population_legend.select('#vs')
             .join('text')
-            .attr('id', 'vs')
-            .text("vs.")
-            .style('text-anchor', 'middle')
-            .attr('x', w_full/2)
-            .attr('y', 70)
-            .attr('font-size', 'large')
             .attr('opacity', 1)
 
         population_legend.select('#second-country-name-pop')
             .join('text')
             .text(truncateStrings(selected_countries[1]))
-            .style('text-anchor', 'middle')
-            .attr('x', w_full/2 + pyramid_margin.middle + sectorWidth/2)
-            .attr('y', 70)
-            .attr('font-size', 'large')
-            .style('fill', style.rightCountryColor)
             .attr('opacity', 1)
-
 
         gdp_legend.select('#first-country-name-gdp')
             .join('text')
             .text(truncateStrings(selected_countries[0]))
-            .style('text-anchor', 'middle')
-            .attr('font-size', 'large')
             .style('fill', style.leftCountryColor)
             .append('tspan')
             .text(' vs. ')

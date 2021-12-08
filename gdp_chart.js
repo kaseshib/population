@@ -1,27 +1,30 @@
-let svg, gdp, grouped_data, gdp_legend
+let svg, gdp, grouped_data, gdp_legend, x, width, height
 
+let gdp_w_full = 450
+let gdp_h_full = 450
 let colors = ['#e41a1c','#377eb8']
 const color = d3.scaleOrdinal()
     // .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
     .range(['#e41a1c','#377eb8'])
 
 
-const gdp_margin = {top: 100, right: 73, bottom: 50, left: 73},
-        gdp_w_full = 450,
-        width = gdp_w_full - gdp_margin.left - gdp_margin.right,
-        gdp_h_full = 450,
-        height = gdp_h_full - gdp_margin.top - gdp_margin.bottom;
-
+var gdp_margin = {top: 100, right: 73, bottom: 50, left: 73}
 
 initiate()
 
 async function initiate(){
+    if (gdp_w_full > $( window ).width()) {
+        gdp_w_full = $( window ).width();
+    }
     
+    width = gdp_w_full - gdp_margin.left - gdp_margin.right,
+    height = gdp_h_full - gdp_margin.top - gdp_margin.bottom;
+
     // append the svg object to the body of the page
     svg = d3.select("#gdp")
         .append("svg")
-        .attr("width", width + gdp_margin.left + gdp_margin.right)
-        .attr("height", height + gdp_margin.top + gdp_margin.bottom)
+        .attr("width", gdp_w_full)
+        .attr("height", gdp_h_full)
     
     gdp = await d3.csv("data/gdp_per_capita_tidy.csv")
     // gdp = await d3.csv("https://storage.googleapis.com/population-project/Assignment%203/data/gdp_per_capita_tidy.csv")
@@ -38,7 +41,7 @@ async function initiate(){
         .text('GDP per Capita, 2020-adj. $')
         .style('text-anchor', 'middle')
         .style('font-weight', 'bold')
-        .attr('x', (gdp_w_full+gdp_margin.left)/2)
+        .attr('x', gdp_w_full/2)
         .attr('y', 30)
         .attr('font-size', 'x-large')
         .attr("transform", 'translate(0,0)')
@@ -47,16 +50,17 @@ async function initiate(){
         .attr('id', 'first-country-name-gdp')
         .text(selected_countries[0])
         .style('text-anchor', 'middle')
-        .attr('x', (gdp_w_full+gdp_margin.left)/2)
+        .attr('x', gdp_w_full/2)
         .attr('y', 70)
         .attr('font-size', 'large')
 
 
-
     // Add X axis
-    const x = d3.scaleLinear()
+    x = d3.scaleLinear()
         .domain(d3.extent(gdp, function(d) { return +d["Year"]; }))
-        .range([ 0, width ]);
+        .range([ 0, width ])
+        .nice();
+    
     svg.append("g")
         .attr('class', 'x axis')
         .attr("transform", translation(gdp_margin.left, height + gdp_margin.top))
@@ -86,13 +90,6 @@ function drawChart(selected_countries) {
         flat = flat.concat(filtered.get(selected_countries[1]))
     }
 
-    const x = d3.scaleLinear()
-        .domain(d3.extent(flat, function(d) { return +d["Year"]; }))
-        .range([ 0, width ]);
-
-    svg.selectAll('.x.axis')
-        .call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(5));
-
     // Add Y axis
     const y = d3.scaleLinear()
         .domain([0, d3.max(flat, function(d) { return +d["GDP"]; })])
@@ -120,7 +117,6 @@ function drawChart(selected_countries) {
                 (d[1])
             })
             .attr('transform', translation(gdp_margin.left, gdp_margin.top))
-    let first = selected_countries[0]
 
     let yearLabel = Math.max(0, year-1960)
 
