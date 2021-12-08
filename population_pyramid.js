@@ -206,7 +206,7 @@ function setUpChart(data, target, options) {
         .attr('x', (w/2 - pyramid_margin.middle + pyramid_margin.left)/2 - male_size/2)
         .style('text-anchor', 'middle')
         .attr('y', 100)
-        .attr('xlink:href', '/images/male.png')
+        .attr('xlink:href', 'images/male.png')
         .attr('width', male_size)
         .attr('height', male_size)
 
@@ -215,7 +215,7 @@ function setUpChart(data, target, options) {
         .attr('x', (w/2) + pyramid_margin.left + ((w - pyramid_margin.right) - (w/2) + pyramid_margin.left)/2 - female_size/2)
         .style('text-anchor', 'middle')
         .attr('y', 100)
-        .attr('xlink:href', '/images/female.png')
+        .attr('xlink:href', 'images/female.png')
         .attr('width', female_size)
         .attr('height', female_size)
 

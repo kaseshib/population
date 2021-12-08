@@ -128,7 +128,7 @@ function drawChart(selected_countries) {
         .data(filtered)
         .join("text")
         .attr("class", "line-label-one")
-        .attr("transform", translation(gdp_margin.left + 4+width*((year - 1960)/(2020-1960)), gdp_margin.top + y(filtered.get(selected_countries[0])[yearLabel].GDP) ))
+        .attr("transform", translation(gdp_margin.left + 6+width*((year - 1960)/(2020-1960)), gdp_margin.top + y(filtered.get(selected_countries[0])[yearLabel].GDP) ))
         .attr("dy", ".35em")
         .attr("text-anchor", "start")
         .attr("opacity", (year - 1960) * filtered.get(selected_countries[0])[yearLabel].GDP)
