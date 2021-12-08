@@ -3,7 +3,9 @@ year = 1950
 // selected_countries[0] = "United States"
 // selected_countries[1] = ""
 
-let chart, options, leftBarGroup, rightBarGroup, tooltipDiv, style, population_legend, w_full, h_full, h, w, sectorWidth, leftBegin, rightBegin, maxValue;
+let chart, options, leftBarGroup, rightBarGroup, tooltipDiv, style, 
+    population_legend, w_full, h_full, h, w, sectorWidth, 
+    leftBegin, rightBegin, maxValue, xScale, yScale;
 let numCountriesShown = 1
 
 var countries = {}
@@ -40,6 +42,7 @@ $('#selected-countries').on('select2:select select2:unselect', function (e) {
     // Do something
     selected_countries = $('#selected-countries').val()
     drawChart(selected_countries)
+    updateAxes()
     drawBars(countries, year,'#pyramid', options)
     changeBarColors()
     updateLegend()
@@ -208,27 +211,33 @@ function setUpChart(data, target, options) {
         .attr('class', 'inner-region')
         .attr('transform', translation(0, pyramid_margin.top));
 
-    // var maxValue = Math.max(
+    // maxValue = Math.max(
     //     d3.max(data, function(d) {
-    //         return percentage(d.male);
+            
+    //         return percentageOfPopulation(d.male, data);
     //     }),
     //     d3.max(data, function(d) {
-    //         return percentage(d.female);
+    //         return percentageOfPopulation(d.female, data);
     //     })
     // );
-    maxValue = .20
+
+    maxValue = d3.max(data, (d) => Math.max(d.male, d.female)) / totalPopulation(data)
+    // maxValue = .20
+    console.log(Math.round(maxValue*1000)/10)
+
+    updateAxes()
 
 
     // SET UP SCALES
 
     // the xScale goes from 0 to the width of a region
     //  it will be reversed for the left x-axis
-    var xScale = d3.scaleLinear()
+    xScale = d3.scaleLinear()
         .domain([0, maxValue])
         .range([0, sectorWidth])
         .nice();
 
-    var yScale = d3.scaleBand()
+    yScale = d3.scaleBand()
         .domain(data.map(function(d) {
             return d.age;
         }))
@@ -248,15 +257,15 @@ function setUpChart(data, target, options) {
 
     var xAxisRight = d3.axisBottom()
         .scale(xScale)
-        .ticks(5)
+        .ticks(3)
         // .tickValues(.01,.02,.03,.04,.05)
-        .tickFormat(d3.format('.1%'));
+        .tickFormat(d3.format('.0%'));
 
     var xAxisLeft = d3.axisBottom()
         // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
         .scale(xScale.copy().range([leftBegin, pyramid_margin.left]))
-        .ticks(5)
-        .tickFormat(d3.format('.1%'));
+        .ticks(3)
+        .tickFormat(d3.format('.0%'));
 
     // DRAW AXES
     pyramid.append('g')
@@ -613,4 +622,58 @@ function truncateStrings(str) {
     }
 
     return truncated
+}
+
+function updateAxes() {
+    // maxValue = d3.max(countryOneData, (d) => Math.max(d.male, d.female)) / totalPopulation(countryOneData)
+        
+    // if (selected_countries.length == 2) {
+    //     maxValue = Math.max(maxValue, d3.max(countryTwoData, (d) => Math.max(d.male, d.female)) / totalPopulation(countryTwoData))
+    // }
+
+    maxValue = 0
+
+    for (let country of selected_countries) {
+        for (let year = 1950; year <= 2020; year++) {
+            let currData = getData(country, year)
+            maxValue = Math.max(maxValue, d3.max(currData, (d) => getAgeMax(d)) / totalPopulation(currData))
+        }
+    }
+    
+    console.log(Math.round(maxValue*1000)/10)
+    xScale = d3.scaleLinear()
+        .domain([0, maxValue])
+        .range([0, sectorWidth])
+        .nice();
+
+
+    var xAxisRight = d3.axisBottom()
+        .scale(xScale)
+        .ticks(3)
+        // .tickValues(.01,.02,.03,.04,.05)
+        .tickFormat(d3.format('.0%'));
+
+    var xAxisLeft = d3.axisBottom()
+        // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
+        .scale(xScale.copy().range([leftBegin, pyramid_margin.left]))
+        .ticks(3)
+        .tickFormat(d3.format('.0%'));
+
+    d3.select('.axis.x.left')
+        .join('g')
+        .attr('transform', translation(0, h))
+        .call(xAxisLeft);
+
+    d3.select('.axis.x.right')
+        .join('g')
+        .attr('transform', translation(rightBegin, h))
+        .call(xAxisRight);
+}
+
+function getAgeMax(d) {
+    if (selected_countries.length == 1) {
+        return Math.max(d.male, d.female)
+    } else {
+        return d.male + d.female
+    }
 }
