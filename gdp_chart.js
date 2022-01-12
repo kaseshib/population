@@ -80,7 +80,7 @@ function drawChart(selected_countries) {
     var filtered = new Map();
     filtered.set(selected_countries[0], grouped_data.get(selected_countries[0]))
     var flat = filtered.get(selected_countries[0])
-    
+
     if (selected_countries.length == 2) {
         filtered.set(selected_countries[1], grouped_data.get(selected_countries[1]))
         flat = flat.concat(filtered.get(selected_countries[1]))
