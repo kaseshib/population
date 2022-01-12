@@ -365,20 +365,21 @@ function drawBars(data, year, options) {
                 .duration(200)
                 .style("opacity", 0.9);
             
-            let prefix, percentage
+            let prefix, percentage, pop
 
             if (selected_countries.length == 1) {
                 prefix = "<strong>Males Age "
                 percentage = Math.round(percentageOfPopulation(a.male, countryOneData) * 1000) / 10
+                pop = a.male
 
             } else {
                 prefix = "<strong>" + truncateStrings(selected_countries[0]) + " Age "
                 percentage = Math.round(percentageOfPopulation(a.male + a.female, countryOneData) * 1000) / 10
-
+                pop = a.male + a.female
             }
 
             tooltipDiv.html(prefix + a.age + "</strong>" +
-                    "<br />  Population: " + prettyFormat(a.male) +
+                    "<br />  Population: " + prettyFormat(pop) +
                     "<br />" + percentage + "% of Total")
                 .style("left", d.clientX + "px")
                 .style("top", d.clientY - 28 + "px");
@@ -418,18 +419,19 @@ function drawBars(data, year, options) {
                 .duration(200)
                 .style("opacity", 0.9);
             
-            let prefix, percentage
+            let prefix, percentage, pop
             
             if (selected_countries.length == 1) {
                 prefix = "<strong>Females Age "
                 percentage = Math.round(percentageOfPopulation(a.female, rightData) * 1000) / 10
+                pop = a.female
             } else {
                 prefix = "<strong>" + truncateStrings(selected_countries[1]) + " Age "
                 percentage = Math.round(percentageOfPopulation(a.female + a.male, rightData) * 1000) / 10
-
+                pop = a.female + a.male
             }
             tooltipDiv.html(prefix + a.age + "</strong>" +
-                    "<br />  Population: " + prettyFormat(a.female) +
+                    "<br />  Population: " + prettyFormat(pop) +
                     "<br />" + percentage + "% of Total")
                 .style("left", d.clientX + "px")
                 .style("top", d.clientY - 28 + "px");
