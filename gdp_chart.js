@@ -147,3 +147,8 @@ function formatDollars(str) {
     let asInt = parseInt(str)
     return "$" + asInt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+// string concat for translate
+function translation(x, y) {
+    return 'translate(' + x + ',' + y + ')';
+}

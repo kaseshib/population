@@ -453,11 +453,6 @@ function percentageOfPopulation(val, data) {
     return val / totalPopulation(data)
 }
 
-// string concat for translate
-function translation(x, y) {
-    return 'translate(' + x + ',' + y + ')';
-}
-
 // numbers with commas
 function prettyFormat(x) {
     return (x*1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
